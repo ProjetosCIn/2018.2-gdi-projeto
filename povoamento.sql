@@ -1,0 +1,1 @@
+-- As consultas SQL devem sempre retornar pelo menos uma linha.
