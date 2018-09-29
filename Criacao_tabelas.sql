@@ -1,31 +1,31 @@
 CREATE TABLE local(
-  --endereço   qual o tipo de dado?
-  latitude FLOAT(3,8),
-  longitude FLOAT (3,8),
-  país VARCHAR (50),
-  CONSTRAINT local_pk PRIMARY KEY(endereço)
+    --endereço   qual o tipo de dado?
+    latitude FLOAT(3,8),
+    longitude FLOAT (3,8),
+    país VARCHAR (50),
+    CONSTRAINT local_pk PRIMARY KEY(endereço)
 )
 
 CREATE TABLE personagem(
-   codinome VARCHAR(50),
-   frase_de_efeito  VARCHAR (255),
-   --uniforme  qual o tipo de dado? boolean ?
-   -- endereço_de_nascimento (mesmo tipo de endereço)
-   data_de_nascimento DATE NOT NULL,
-   CONSTRAINT personagem_pk PRIMARY KEY (codinome),
-   CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
+    codinome VARCHAR(50),
+    frase_de_efeito  VARCHAR (255),
+    --uniforme  qual o tipo de dado? boolean ?
+    -- endereço_de_nascimento (mesmo tipo de endereço)
+    data_de_nascimento DATE NOT NULL,
+    CONSTRAINT personagem_pk PRIMARY KEY (codinome),
+    CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
 )
 
 CREATE TABLE heroi(
-    codinome VARCHAR (20) NOT NULL,
-    crh INT (10) NOT NULL,
+    codinome VARCHAR (20),
+    crh INT(10),
     CONSTRAINT heroi_pk PRIMARY KEY (codinome),
     CONSTRAINT heroi_fk FOREIGN KEY personagem(codinome) REFERENCES personagem(codinome)
 
 )
 
 CREATE TABLE vilao(
-    codinome VARCHAR(50) ,
+    codinome VARCHAR(50),
     n_de_procurado INT (10),
     CONSTRAINT vilao_pk PRIMARY KEY (codinome),
     CONSTRAINT vilao_fk FOREIGN KEY (codinome) REFERENCES personagem(codinome)
@@ -41,9 +41,9 @@ CREATE TABLE mentor(
 
 CREATE TABLE poder(
     codigo_do_poder INT(10),
-    nome VARCHAR (50),
-    tipo VARCHAR (30),
-    legalidade boolean,
+    nome VARCHAR (50) NOT NULL,
+    tipo VARCHAR (30) NOT NULL,
+    legalidade boolean NOT NULL,
     CONSTRAINT poder_pk PRIMARY KEY (codigo_do_poder)
     )
 
@@ -56,14 +56,14 @@ CREATE TABLE heroi_poder(
 )
 
 CREATE TABLE luta(
-    codinomeheroi VARCHAR (50),
-    codinomevilao VARCHAR (50),
+    codinomeheroi VARCHAR (50) NOT NULL,
+    codinomevilao VARCHAR (50) NOT NULL,
     --endereço_da_luta 
-    data_luta
+    data_luta DATE NOT NULL,
     CONSTRAINT luta_pk PRIMARY KEY(codinomeheroi,codinomevilao,endereço_da_luta,data_luta),
-    CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi,codinomevilao) REFERENCES personagem(codinome), --não sei qual o modo certo de escrever, essa linha ou a que está abaixo.(vou olhar dps)
-    -- CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi,codinomevilao) REFERENCES personagem(codinome,codinome)
-    CONSTRAINT luta_fk2 FOREIGN KEY (endereço_da_luta) REFERENCES local(endereço)
+    CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi) REFERENCES heroi(codinome), 
+    CONSTRAINT luta_fk2 FOREIGN KEY(codinomevilao) REFERENCES vilao(codinome),
+    CONSTRAINT luta_fk3 FOREIGN KEY (endereço_da_luta) REFERENCES local(endereço)
 )
 
 CREATE TABLE equipe(
@@ -74,7 +74,7 @@ CREATE TABLE equipe(
 
 CREATE TABLE area_de_atuação(
     codigo_de_equipe INT(10),
-    area -- qual o tipo de dado?
+    --area -- qual o tipo de dado?
     CONSTRAINT area_de_atuação_pk PRIMARY KEY (codigo_de_equipe,area),
     CONSTRAINT area_de_atuação_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 )
@@ -91,13 +91,14 @@ CREATE TABLE qg(
 )
 
 CREATE TABLE luta_envolve_equipe(
-    codinomeheroi 
-    codinomevilao
-    endereço_da_luta
-    codigo_de_equipe
-    data_luta  
-
-
+    codinomeheroi VARCHAR(50), 
+    codinomevilao VARCHAR(50),
+    --endereço_da_luta
+    codigo_de_equipe INT(10),
+    data_luta DATE,  
+    CONSTRAINT luta_envolve_equipe_pk PRIMARY KEY (codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta)
+    CONSTRAINT luta_envolve_equipe_fk FOREIGN KEY (codinomeheroi,codinomevilao,endereço_da_luta) REFERENCES luta(codinomeheroi,codinomevilao,endereço_da_luta)
+    CONSTRAINT luta_envolve_equipe_fk2 FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 )
 
 CREATE TABLE personagem_filiação_equipe(
@@ -109,15 +110,11 @@ CREATE TABLE personagem_filiação_equipe(
 )
 
 CREATE TABLE simbolo( --Falta completar
-    imagem
+   -- imagem -- qual o tipo?
     codigo_de_equipe INT(10),
     significado VARCHAR(255),
     cor_predominante VARCHAR(30),
  
     CONSTRAINT simbolo_pk PRIMARY KEY (imagem),
     CONSTRAINT simbolo_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
-
-
-
-
 )
