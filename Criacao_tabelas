@@ -1,0 +1,91 @@
+--Falta adicionar a obrigatoriedade( NULL or NOT NULL) em alguns itens
+
+CREATE TABLE local(
+  --endereço   qual o tipo de dado?
+  latitude FLOAT(3,8)
+  longitude FLOAT (3,8)
+  país VARCHAR (50)
+  CONSTRAINT endereço_pk PRIMARY KEY(endereço)
+)
+
+CREATE TABLE personagem(
+   codinome VARCHAR(20)
+   frase_de_efeito  VARCHAR (255)
+   --uniforme  qual o tipo de dado? boolean ?
+   -- endereço_de_nascimento (mesmo tipo de endereço)
+   data_de_nascimento DATE NOT NULL
+   CONSTRAINT codinome_pk PRIMARY KEY (codinome),
+   CONSTRAINT endereço_de_nascimento_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
+)
+
+CREATE TABLE heroi(
+ crh INT (10) NOT NULL
+ codinome VARCHAR (20) NOT NULL
+ CONSTRAINT codinome_pk PRIMARY KEY (codinome)
+ CONSTRAINT codinome_heroi_fk FOREIGN KEY personagem(codinome)
+
+)
+
+CREATE TABLE vilao(
+
+
+)
+
+CREATE TABLE mentor(
+
+
+)
+
+CREATE TABLE poder(
+
+
+
+)
+
+CREATE TABLE heroi_poder(
+
+
+
+)
+
+CREATE TABLE luta(
+
+
+
+)
+
+CREATE TABLE equipe(
+
+
+
+)
+
+CREATE TABLE area_de_atuação(
+
+
+)
+
+
+CREATE TABLE qg(
+
+
+
+)
+
+CREATE TABLE luta_envolve_equipe(
+
+
+
+)
+
+CREATE TABLE personagem_filiação_equipe(
+
+
+
+)
+
+CREATE TABLE simbolo(
+
+
+
+)
