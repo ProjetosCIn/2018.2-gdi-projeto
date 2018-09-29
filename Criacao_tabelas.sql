@@ -109,12 +109,12 @@ CREATE TABLE personagem_filiação_equipe(
     CONSTRAINT personagem_filiação_equipe_fk2 FOREIGN KEY (codinome) REFERENCES personagem(codinome)
 )
 
-CREATE TABLE simbolo( --Falta completar
+CREATE TABLE símbolo( --Falta completar
    -- imagem -- qual o tipo?
     codigo_de_equipe INT(10),
     significado VARCHAR(255),
     cor_predominante VARCHAR(30),
  
-    CONSTRAINT simbolo_pk PRIMARY KEY (imagem),
-    CONSTRAINT simbolo_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
+    CONSTRAINT símbolo_pk PRIMARY KEY (imagem),
+    CONSTRAINT símbolo_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 )
