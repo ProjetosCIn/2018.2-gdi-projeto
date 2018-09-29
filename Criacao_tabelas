@@ -1,11 +1,9 @@
---Falta adicionar a obrigatoriedade( NULL or NOT NULL) em alguns itens
-
 CREATE TABLE local(
   --endereço   qual o tipo de dado?
   latitude FLOAT(3,8)
   longitude FLOAT (3,8)
   país VARCHAR (50)
-  CONSTRAINT endereço_pk PRIMARY KEY(endereço)
+  CONSTRAINT local_endereço_pk PRIMARY KEY(endereço)
 )
 
 CREATE TABLE personagem(
@@ -14,35 +12,43 @@ CREATE TABLE personagem(
    --uniforme  qual o tipo de dado? boolean ?
    -- endereço_de_nascimento (mesmo tipo de endereço)
    data_de_nascimento DATE NOT NULL
-   CONSTRAINT codinome_pk PRIMARY KEY (codinome),
-   CONSTRAINT endereço_de_nascimento_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
+   CONSTRAINT personagem_pk PRIMARY KEY (codinome),
+   CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
 )
 
 CREATE TABLE heroi(
- crh INT (10) NOT NULL
  codinome VARCHAR (20) NOT NULL
- CONSTRAINT codinome_pk PRIMARY KEY (codinome)
- CONSTRAINT codinome_heroi_fk FOREIGN KEY personagem(codinome)
+ crh INT (10) NOT NULL
+ CONSTRAINT heroi_pk PRIMARY KEY (codinome)
+ CONSTRAINT heroi_fk FOREIGN KEY personagem(codinome) REFERENCES personagem(codinome)
 
 )
 
 CREATE TABLE vilao(
-
-
+ codinome VARCHAR(20) 
+ n_de_procurado INT (10)
+ CONSTRAINT vilao_pk PRIMARY KEY (codinome)
+ CONSTRAINT vilao_fk FOREIGN KEY (codinome) REFERENCES personagem(codinome)
 )
 
 CREATE TABLE mentor(
-
-
+ CodinomeMentor VARCHAR(20)
+ CodinomeMentorado VARCHAR(20)
+ CONSTRAINT mentor_pk PRIMARY KEY (CodinomeMentor,CodinomeMentorado)
+ CONSTRAINT mentor_fk FOREIGN KEY (CodinomeMentor) REFERENCES personagem(codinome)
+ CONSTRAINT mentor_fk2 FOREIGN KEY (CodinomeMentorado) REFERENCES personagem(codinome)
 )
 
 CREATE TABLE poder(
-
-
-
-)
+    codigo_do_poder INT(10)
+    nome VARCHAR (50)
+    tipo VARCHAR (30)
+    legalidade boolean --se é permitido usar ou não
+    CONSTRAINT poder_pk PRIMARY KEY (codigo_do_poder)
+    )
 
 CREATE TABLE heroi_poder(
+    
 
 
 
