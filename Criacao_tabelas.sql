@@ -59,9 +59,11 @@ CREATE TABLE luta(
     codinomeheroi VARCHAR (50),
     codinomevilao VARCHAR (50),
     --endereço_da_luta 
-
-
-
+    data_luta
+    CONSTRAINT luta_pk PRIMARY KEY(codinomeheroi,codinomevilao,endereço_da_luta,data_luta),
+    CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi,codinomevilao) REFERENCES personagem(codinome), --não sei qual o modo certo de escrever, essa linha ou a que está abaixo.(vou olhar dps)
+    -- CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi,codinomevilao) REFERENCES personagem(codinome,codinome)
+    CONSTRAINT luta_fk2 FOREIGN KEY (endereço_da_luta) REFERENCES local(endereço)
 )
 
 CREATE TABLE equipe(
@@ -89,18 +91,32 @@ CREATE TABLE qg(
 )
 
 CREATE TABLE luta_envolve_equipe(
-
+    codinomeheroi 
+    codinomevilao
+    endereço_da_luta
+    codigo_de_equipe
+    data_luta  
 
 
 )
 
 CREATE TABLE personagem_filiação_equipe(
-
-
-
+    codigo_de_equipe INT(10),
+    codinome VARCHAR (50),
+    CONSTRAINT personagem_filiação_equipe_pk PRIMARY KEY (codigo_de_equipe,codinome),
+    CONSTRAINT personagem_filiação_equipe_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe),
+    CONSTRAINT personagem_filiação_equipe_fk2 FOREIGN KEY (codinome) REFERENCES personagem(codinome)
 )
 
-CREATE TABLE simbolo(
+CREATE TABLE simbolo( --Falta completar
+    imagem
+    codigo_de_equipe INT(10),
+    significado VARCHAR(255),
+    cor_predominante VARCHAR(30),
+ 
+    CONSTRAINT simbolo_pk PRIMARY KEY (imagem),
+    CONSTRAINT simbolo_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
+
 
 
 
