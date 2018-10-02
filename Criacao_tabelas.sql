@@ -1,5 +1,5 @@
 CREATE TABLE local(
-    --endereço   qual o tipo de dado?
+    endereço VARCHAR(100),   
     latitude FLOAT(3,8),
     longitude FLOAT (3,8),
     país VARCHAR (50),
@@ -10,7 +10,7 @@ CREATE TABLE personagem(
     codinome VARCHAR(50),
     frase_de_efeito  VARCHAR (255),
     --uniforme  qual o tipo de dado? boolean ?
-    -- endereço_de_nascimento (mesmo tipo de endereço)
+    endereço_de_nascimento VARCHAR(100),
     data_de_nascimento DATE NOT NULL,
     CONSTRAINT personagem_pk PRIMARY KEY (codinome),
     CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
@@ -58,7 +58,7 @@ CREATE TABLE heroi_poder(
 CREATE TABLE luta(
     codinomeheroi VARCHAR (50) NOT NULL,
     codinomevilao VARCHAR (50) NOT NULL,
-    --endereço_da_luta 
+    endereço_da_luta VARCHAR(100),
     data_luta DATE NOT NULL,
     CONSTRAINT luta_pk PRIMARY KEY(codinomeheroi,codinomevilao,endereço_da_luta,data_luta),
     CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi) REFERENCES heroi(codinome), 
@@ -93,7 +93,7 @@ CREATE TABLE qg(
 CREATE TABLE luta_envolve_equipe(
     codinomeheroi VARCHAR(50), 
     codinomevilao VARCHAR(50),
-    --endereço_da_luta
+    endereço_da_luta VARCHAR(100),
     codigo_de_equipe INT(10),
     data_luta DATE,  
     CONSTRAINT luta_envolve_equipe_pk PRIMARY KEY (codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta)
