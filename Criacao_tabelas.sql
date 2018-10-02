@@ -9,7 +9,7 @@ CREATE TABLE local(
 CREATE TABLE personagem(
     codinome VARCHAR(50),
     frase_de_efeito  VARCHAR (255),
-    --uniforme  qual o tipo de dado? boolean ?
+    uniforme  VARCHAR(255),
     endereço_de_nascimento VARCHAR(100),
     data_de_nascimento DATE NOT NULL,
     CONSTRAINT personagem_pk PRIMARY KEY (codinome),
@@ -74,7 +74,7 @@ CREATE TABLE equipe(
 
 CREATE TABLE area_de_atuação(
     codigo_de_equipe INT(10),
-    --area -- qual o tipo de dado?
+    area VARCHAR(255),
     CONSTRAINT area_de_atuação_pk PRIMARY KEY (codigo_de_equipe,area),
     CONSTRAINT area_de_atuação_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 )
@@ -110,7 +110,7 @@ CREATE TABLE personagem_filiação_equipe(
 )
 
 CREATE TABLE símbolo( --Falta completar
-   -- imagem -- qual o tipo?
+    image imagem,
     codigo_de_equipe INT(10),
     significado VARCHAR(255),
     cor_predominante VARCHAR(30),
