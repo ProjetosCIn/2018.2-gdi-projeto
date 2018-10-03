@@ -67,7 +67,7 @@ CREATE TABLE luta(
 );
 
 CREATE TABLE equipe(
-    codigo_de_equipe NUMBER(10),
+    codigo_de_equipe NUMBER(10) UNIQUE,
     n_de_fãs NUMBER(19), --Tem que ser só  número positivo..
     CONSTRAINT equipe_pk PRIMARY KEY (codigo_de_equipe,n_de_fãs)
  );
@@ -90,14 +90,14 @@ CREATE TABLE qg(
 
 );
 
-CREATE TABLE luta_envolve_equipe(
+CREATE TABLE luta_envolve_equipe( --ERRO NESSA TABELA
     codinomeheroi VARCHAR(50), 
     codinomevilao VARCHAR(50),
     endereço_da_luta VARCHAR(100),
     codigo_de_equipe NUMBER(10),
     data_luta DATE,  
-    CONSTRAINT luta_envolve_equipe_pk PRIMARY KEY (codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta)
-    CONSTRAINT luta_envolve_equipe_fk FOREIGN KEY (codinomeheroi,codinomevilao,endereço_da_luta) REFERENCES luta(codinomeheroi,codinomevilao,endereço_da_luta)
+    CONSTRAINT luta_envolve_equipe_pk PRIMARY KEY (codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta),
+    CONSTRAINT luta_envolve_equipe_fk FOREIGN KEY (codinomeheroi,codinomevilao,endereço_da_luta) REFERENCES luta(codinomeheroi,codinomevilao,endereço_da_luta),
     CONSTRAINT luta_envolve_equipe_fk2 FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 );
 
@@ -109,7 +109,7 @@ CREATE TABLE personagem_filiação_equipe(
     CONSTRAINT personagem_filiação_equipe_fk2 FOREIGN KEY (codinome) REFERENCES personagem(codinome)
 );
 
-CREATE TABLE símbolo( 
+CREATE TABLE símbolo( --IMAGEM É UM IDENTIFICADOR INVÁLIDO
     image imagem,
     codigo_de_equipe NUMBER(10),
     significado VARCHAR(255),
