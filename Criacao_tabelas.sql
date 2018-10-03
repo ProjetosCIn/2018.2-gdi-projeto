@@ -20,7 +20,7 @@ CREATE TABLE heroi(
     codinome VARCHAR (20),
     crh INT(10),
     CONSTRAINT heroi_pk PRIMARY KEY (codinome),
-    CONSTRAINT heroi_fk FOREIGN KEY personagem(codinome) REFERENCES personagem(codinome)
+    CONSTRAINT heroi_fk FOREIGN KEY (codinome) REFERENCES personagem(codinome)
 
 );
 
@@ -35,8 +35,8 @@ CREATE TABLE mentor(
     codinomementor VARCHAR(50),
     codinomementorado VARCHAR(50),
     CONSTRAINT mentor_pk PRIMARY KEY (codinomementor,codinomementorado),
-    CONSTRAINT mentor_fk FOREIGN KEY (codinomementor) REFERENCES personagem(codinome), -- vem de uma msm tabela, 
-    CONSTRAINT mentor_fk2 FOREIGN KEY (codinomementorado) REFERENCES personagem(codinome) -- ficam juntos? assim como no Modelo relacional?
+    CONSTRAINT mentor_fk FOREIGN KEY (codinomementor) REFERENCES personagem(codinome), 
+    CONSTRAINT mentor_fk2 FOREIGN KEY (codinomementorado) REFERENCES personagem(codinome)
 );
 
 CREATE TABLE poder(
