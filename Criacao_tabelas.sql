@@ -43,7 +43,7 @@ CREATE TABLE poder(
     codigo_do_poder NUMBER(10),
     nome VARCHAR (50) NOT NULL,
     tipo VARCHAR (30) NOT NULL,
-    legalidade boolean NOT NULL,
+    legalidade VARCHAR(3) NOT NULL, -- SIM(LEGAL) OU NÃO (NÃO LEGAL)
     CONSTRAINT poder_pk PRIMARY KEY (codigo_do_poder)
     );
 
