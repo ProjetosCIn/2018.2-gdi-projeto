@@ -13,7 +13,7 @@ CREATE TABLE personagem(
     endereço_de_nascimento VARCHAR(100),
     data_de_nascimento DATE NOT NULL,
     CONSTRAINT personagem_pk PRIMARY KEY (codinome),
-    CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES lugar(endereço)
+    CONSTRAINT personagem_fk FOREIGN KEY(endereço_de_nascimento) REFERENCES lugar(endereço)
 )
 
 CREATE TABLE heroi(
