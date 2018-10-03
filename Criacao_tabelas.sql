@@ -1,9 +1,9 @@
-CREATE TABLE local(
+CREATE TABLE lugar(
     endereço VARCHAR(100),   
-    latitude FLOAT(3,8),
-    longitude FLOAT (3,8),
+    latitude NUMBER(3,8),
+    longitude NUMBER(3,8),
     país VARCHAR (50),
-    CONSTRAINT local_pk PRIMARY KEY(endereço)
+    CONSTRAINT lugar_pk PRIMARY KEY(endereço)
 )
 
 CREATE TABLE personagem(
@@ -13,7 +13,7 @@ CREATE TABLE personagem(
     endereço_de_nascimento VARCHAR(100),
     data_de_nascimento DATE NOT NULL,
     CONSTRAINT personagem_pk PRIMARY KEY (codinome),
-    CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES local(endereço)
+    CONSTRAINT personagem_fk FOREIGN KEY(data_de_nascimento) REFERENCES lugar(endereço)
 )
 
 CREATE TABLE heroi(
@@ -63,7 +63,7 @@ CREATE TABLE luta(
     CONSTRAINT luta_pk PRIMARY KEY(codinomeheroi,codinomevilao,endereço_da_luta,data_luta),
     CONSTRAINT luta_fk FOREIGN KEY(codinomeheroi) REFERENCES heroi(codinome), 
     CONSTRAINT luta_fk2 FOREIGN KEY(codinomevilao) REFERENCES vilao(codinome),
-    CONSTRAINT luta_fk3 FOREIGN KEY (endereço_da_luta) REFERENCES local(endereço)
+    CONSTRAINT luta_fk3 FOREIGN KEY (endereço_da_luta) REFERENCES lugar(endereço)
 )
 
 CREATE TABLE equipe(
