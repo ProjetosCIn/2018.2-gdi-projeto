@@ -68,7 +68,7 @@ CREATE TABLE luta(
 
 CREATE TABLE equipe(
     codigo_de_equipe NUMBER(10),
-    n_de_fãs BIGINT(19), --Tem que ser só  número positivo..
+    n_de_fãs NUMBER(19), --Tem que ser só  número positivo..
     CONSTRAINT equipe_pk PRIMARY KEY (codigo_de_equipe,n_de_fãs)
  );
 
