@@ -110,11 +110,11 @@ CREATE TABLE personagem_filiação_equipe(
 );
 
 CREATE TABLE símbolo( --IMAGEM É UM IDENTIFICADOR INVÁLIDO
-    image imagem,
+    imagem BLOB,
     codigo_de_equipe NUMBER(10),
     significado VARCHAR(255),
     cor_predominante VARCHAR(30),
- 
-    CONSTRAINT símbolo_pk PRIMARY KEY (imagem),
+    id_imagem NUMBER,
+    CONSTRAINT símbolo_pk PRIMARY KEY (id_imagem),
     CONSTRAINT símbolo_fk FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 );
