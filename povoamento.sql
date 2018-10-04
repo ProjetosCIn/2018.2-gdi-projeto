@@ -24,6 +24,6 @@ INSERT INTO qg(codigo_de_equipe, n_de_qg, n_de_aposentos, CEP) VALUES (555, 9283
 
 INSERT INTO luta_envolve_equipe(codinomeheroi, codinomevilao, endereço_da_luta, codigo_de_equipe, data_luta) VALUES ('Ronaldinho', 'Jackson', 'Rua dos testes, 321', 555, to_date('2018-04-10', 'yyyy-mm-dd'));
 
-INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (25252525, 'Ronaldinho');
+INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (555, 'Ronaldinho');
 
-INSERT INTO símbolo(codigo_de_equipe, significado, cor_predominante, id_imagem) VALUES (25252525, 'Significa a abilidade de sempre dibrar', 'Verde', 20394855);
+INSERT INTO símbolo(codigo_de_equipe, significado, cor_predominante, id_imagem) VALUES (555, 'Significa a abilidade de sempre dibrar', 'Verde', 20394855);
