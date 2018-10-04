@@ -1,7 +1,7 @@
 CREATE TABLE lugar(
     endereço VARCHAR(100),   
-    latitude NUMBER(3,8),
-    longitude NUMBER(3,8),
+    latitude NUMBER(11),
+    longitude NUMBER(11),
     país VARCHAR (50),
     CONSTRAINT lugar_pk PRIMARY KEY(endereço)
 );
@@ -43,7 +43,7 @@ CREATE TABLE poder(
     codigo_do_poder NUMBER(10),
     nome VARCHAR (50) NOT NULL,
     tipo VARCHAR (30) NOT NULL,
-    legalidade VARCHAR(3) NOT NULL, -- SIM(LEGAL) OU NÃO (NÃO LEGAL)
+    legalidade VARCHAR(6) NOT NULL, -- SIM(LEGAL) OU NÃO (NÃO LEGAL)
     CONSTRAINT poder_pk PRIMARY KEY (codigo_do_poder)
     );
 
@@ -110,7 +110,7 @@ CREATE TABLE personagem_filiação_equipe(
 );
 
 CREATE TABLE símbolo( --IMAGEM É UM IDENTIFICADOR INVÁLIDO
-    imagem BLOB,
+    --imagem BLOB,
     codigo_de_equipe NUMBER(10),
     significado VARCHAR(255),
     cor_predominante VARCHAR(30),

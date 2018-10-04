@@ -1,21 +1,29 @@
---layout
+INSERT INTO lugar(endereço, latitude, longitude, país) VALUES ('Rua dos testes, 321', 12345678901, 09876543210, 'Brasil');
+INSERT INTO lugar(endereço, latitude, longitude, país) VALUES ('Avenida dos confrontos, 222', 12345228901, 09872243210, 'Brasil');
 
-INSERT INTO local(endereço,país,latitude,longitude) VALUES (endereço,'Brasil',1111111111,1111111111)
+INSERT INTO personagem(codinome, frase_de_efeito, uniforme, endereço_de_nascimento, data_de_nascimento) VALUES ('Ronaldinho', 'Terminar um trabalho é glorioso', 'Formato dibróide', 'Rua dos testes, 321', to_date('1984-12-12', 'yyyy-mm-dd'));
+INSERT INTO personagem(codinome, frase_de_efeito, uniforme, endereço_de_nascimento, data_de_nascimento) VALUES ('Jackson', 'Errar eu? So se for fazendo GDI', 'Emana desespero', 'Rua dos testes, 321', to_date('1990-12-12','yyyy-mm-dd'));
 
-INSERT INTO personagem(codinome,frase_de_efeito,uniforme,endereço_de_nascimento,data_de_nascimento) VALUES ('codinome','frase',uniforme,endereço,11/11/1111)
+INSERT INTO heroi(codinome, crh) VALUES ('Ronaldinho', 1010101010);
+INSERT INTO vilao(codinome, n_de_procurado) VALUES ('Jackson', 0000000000);
 
-INSERT INTO heroi(codinome,crh) VALUES ('Codinome',1234567)
+INSERT INTO mentor(codinomementor, codinomementorado) VALUES ('Ronaldinho', 'Jackson');
 
-INSERT INTO vilao(codinome,n_de_procurado) VALUES ('codinome','012345')
+INSERT INTO poder(codigo_do_poder, nome, tipo, legalidade) VALUES (123, 'Dibre', 'Aumento de capacidade', 'LEGAL');
+INSERT INTO poder(codigo_do_poder, nome, tipo, legalidade) VALUES (321, 'Brasileiro', 'Psíquico', 'ILEGAL');
 
-INSERT INTO mentor(codinomementor,codinomementorado) VALUES ('Codinomementor','codinomementorado')
+INSERT INTO heroi_poder(codinome, codigo_do_poder) VALUES ('Ronaldinho', 123);
 
-INSERT INTO poder(codigo_do_poder,nome,tipo,legalidade) VALUES (010203,'nome poder','tipo poder',TRUE) -- true == poder legal
+INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('Ronaldinho', 'Jackson', 'Rua dos testes, 321',to_date('2018-04-10', 'yyyy-mm-dd'));
 
-INSERT INTO heroi_poder(codinome,codigo_do_poder) VALUES ('codinome',77777)
+INSERT INTO equipe(codigo_de_equipe, n_de_fãs) VALUES (555, 209384);
 
-INSERT INTO luta_envolve_equipe(codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta) VALUES ('codinomeHeroi','CodinomeVilao',EndereçoLuta,11111,11/11/1111)
+INSERT INTO area_de_atuação(codigo_de_equipe, area) VALUES (555, 'Crimes urbanos');
 
-INSERT INTO personagem_filiação_equipe(codigo_de_equipe,codinome) VALUES (222222,'codinome')
+INSERT INTO qg(codigo_de_equipe, n_de_qg, n_de_aposentos, CEP) VALUES (555, 92837465, 5, 74833920);
 
-INSERT INTO símbolo(imagem,codigo_de_equipe,significado,cor_predominante) VALUES (imagem,'Significado','CorPredominante')
+INSERT INTO luta_envolve_equipe(codinomeheroi, codinomevilao, endereço_da_luta, codigo_de_equipe, data_luta) VALUES ('Ronaldinho', 'Jackson', 'Rua dos testes, 321', 555, to_date('2018-04-10', 'yyyy-mm-dd'));
+
+INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (25252525, 'Ronaldinho');
+
+INSERT INTO símbolo(codigo_de_equipe, significado, cor_predominante, id_imagem) VALUES (25252525, 'Significa a abilidade de sempre dibrar', 'Verde', 20394855);
