@@ -97,7 +97,7 @@ CREATE TABLE luta_envolve_equipe( --ERRO NESSA TABELA
     codigo_de_equipe NUMBER(10),
     data_luta DATE,  
     CONSTRAINT luta_envolve_equipe_pk PRIMARY KEY (codinomeheroi,codinomevilao,endereço_da_luta,codigo_de_equipe,data_luta),
-    CONSTRAINT luta_envolve_equipe_fk FOREIGN KEY (codinomeheroi,codinomevilao,endereço_da_luta) REFERENCES luta(codinomeheroi,codinomevilao,endereço_da_luta),
+    CONSTRAINT luta_envolve_equipe_fk FOREIGN KEY (codinomeheroi,codinomevilao,endereço_da_luta, data_luta) REFERENCES luta(codinomeheroi,codinomevilao,endereço_da_luta, data_luta),
     CONSTRAINT luta_envolve_equipe_fk2 FOREIGN KEY (codigo_de_equipe) REFERENCES equipe(codigo_de_equipe)
 );
 
