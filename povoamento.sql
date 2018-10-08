@@ -25,12 +25,17 @@ INSERT INTO heroi_poder(codinome, codigo_do_poder) VALUES ('Deku', 12345);
 INSERT INTO heroi_poder(codinome, codigo_do_poder) VALUES ('All Might', 12345);
 
 INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('Ronaldinho', 'Jackson', 'Rua dos testes, 321',to_date('2018-04-10', 'yyyy-mm-dd'));
+INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('Ronaldinho', 'Jackson', 'Avenida do desespero, 555',to_date('2018-04-11', 'yyyy-mm-dd'));
+INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('Deku', 'Jackson', 'Avenida do desespero, 555',to_date('2018-04-20', 'yyyy-mm-dd'));
 INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('Deku', 'Jackson', 'Rua dos testes, 321',to_date('2018-04-10', 'yyyy-mm-dd'));
+INSERT INTO luta(codinomeheroi, codinomevilao, endereço_da_luta, data_luta) VALUES ('All Might', 'Jackson', 'Rua dos testes, 321',to_date('2018-05-10', 'yyyy-mm-dd'));
 
 INSERT INTO equipe(codigo_de_equipe, n_de_fãs) VALUES (555, 209384);
 INSERT INTO equipe(codigo_de_equipe, n_de_fãs) VALUES (10, 1000000);
+INSERT INTO equipe(codigo_de_equipe, n_de_fãs) VALUES (11, 1000000);
 
 INSERT INTO area_de_atuação(codigo_de_equipe, area) VALUES (555, 'Crimes urbanos');
+INSERT INTO area_de_atuação(codigo_de_equipe, area) VALUES (11, 'Assalto a Banco');
 INSERT INTO area_de_atuação(codigo_de_equipe, area) VALUES (10, 'Combate de grande escala');
 
 INSERT INTO qg(codigo_de_equipe, n_de_qg, n_de_aposentos, CEP) VALUES (555, 111111, 5, 303020200);
@@ -41,6 +46,7 @@ INSERT INTO luta_envolve_equipe(codinomeheroi, codinomevilao, endereço_da_luta,
 
 INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (555, 'Ronaldinho');
 INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (10, 'Deku');
+INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (11, 'Jackson');
 INSERT INTO personagem_filiação_equipe(codigo_de_equipe, codinome) VALUES (555, 'All Might');
 
 INSERT INTO símbolo(codigo_de_equipe, significado, cor_predominante, id_imagem) VALUES (555, 'Significa a abilidade de sempre dibrar', 'Verde', 321123);
