@@ -16,6 +16,27 @@ ADD nivel_de_forca NUMBER;
 ALTER TABLE poder
 DROP COLUMN nivel_de_forca;
 
+--17) Operadores aritméticos no SELECT. Quantia de personagens do SELECT 21)
+--21) Uso de HAVING . Retorna todos os poderes que mais de um personagens tem e a quantia de personagens. 
+
+SELECT codigo_do_poder, COUNT(codinome)
+FROM heroi_poder
+GROUP BY codigo_do_poder
+HAVING COUNT(codinome) > 1;
+
+--18)funcao de agregaçao sem group by
+-- Pegando o ano de nascimento mais antigo de um personagem registrado no bd
+SELECT MIN(EXTRACT(year FROM p.data_de_nascimento)) FROM personagem p
+
+
+
+
+--19) funçao de agregaçao com group by
+--22) uso de having com subconsulta
+--Pegando o numero de personagens nascidos em anos menores do que a média de ano de nascimento dos personagens do bd, agrupados por ano.
+SELECT COUNT(EXTRACT(year FROM p.data_de_nascimento)) contagem, EXTRACT(year FROM p.data_de_nascimento) ano  FROM personagem p
+GROUP BY EXTRACT(year FROM p.data_de_nascimento)
+HAVING EXTRACT(year FROM p.data_de_nascimento) < (SELECT AVG(EXTRACT(year FROM data_de_nascimento)) FROM personagem)
 
 
 
@@ -26,13 +47,7 @@ DROP COLUMN nivel_de_forca;
 SELECT DISTINCT endereço_de_nascimento
 FROM personagem
 
---17) Operadores aritméticos no SELECT. Quantia de personagens do SELECT 21)
---21) Uso de HAVING . Retorna todos os poderes que mais de um personagens tem e a quantia de personagens. 
 
-SELECT codigo_do_poder, COUNT(codinome)
-FROM heroi_poder
-GROUP BY codigo_do_poder
-HAVING COUNT(codinome) > 1;
 
 --23)Uso de WHERE + HAVING. Retorna o nome dos heróis que já lutaram contra jackson em mais de um lugar.
 
@@ -41,6 +56,19 @@ FROM luta
 WHERE codinomevilao='Jackson'
 GROUP BY codinomeheroi
 HAVING COUNT(endereço_da_luta)>1;
+
+--24) Junção entre duas tabelas
+--Pegando todos os endereços de lugares do bd (incluindo os que não são local de nascimento de nenhum personagem cadastrado)
+SELECT DISTINCT l.endereço FROM
+personagem p RIGHT JOIN lugar l
+ON  p.endereço_de_nascimento = l.endereço
+
+
+--25) Junção entre três tabelas + condição de seleção (M:N)
+-- Listando codinomes dos herois e o nome de seus super poderes de herois que tem superpoderes.
+SELECT p.codinome "Codinome do Herói", pow.nome "Nome do Poder" FROM personagem p, poder pow, heroi_poder hp
+WHERE p.codinome = hp.codinome AND pow.codigo_do_poder = hp.codigo_do_poder;
+
 
 
 --26) INNER JOIN (intersecção)
@@ -87,6 +115,48 @@ WHERE codigo_de_equipe <> ALL (SELECT codigo_de_equipe FROM equipe WHERE n_de_f�
 SELECT país
 FROM lugar
 WHERE EXISTS (SELECT codinomeheroi FROM luta WHERE endereço_da_luta = lugar.endereço AND codinomeheroi = 'Ronaldinho');
+
+--34) usando union
+--Listando a união de todos os personagens que nasceram em julho com todos os personagens cujo uniforme é Emana desespero.
+SELECT * FROM personagem p
+WHERE EXTRACT(month FROM p.data_de_nascimento) = 07
+
+UNION
+
+SELECT * FROM personagem p1
+WHERE p1.uniforme = 'Emana desespero'
+
+
+--35) usando intersect
+--Listando a interseção de todos os personagens que nasceram em dezembro com todos os personagens cujo uniforme é Emana desespero.
+SELECT * FROM personagem p
+WHERE EXTRACT(month FROM p.data_de_nascimento) = 12
+
+INTERSECT
+
+SELECT * FROM personagem p1
+WHERE p1.uniforme = 'Emana desespero'
+
+
+--36) usando minus
+--Listando todos os personagens que nasceram em dezembro, exceto os personagens cujo unifrome é Emana desespero.
+SELECT * FROM personagem p
+WHERE EXTRACT(month FROM p.data_de_nascimento) = 12
+
+MINUS
+
+SELECT * FROM personagem p1
+WHERE p1.uniforme = 'Emana desespero'
+
+
+--45) junçao de tres tabelas utilizando inner join
+-- Listando codinomes dos herois e o nome de seus super poderes de herois que tem superpoderes.
+SELECT p.codinome "Codinome do Herói" , pow.nome  "Nome do Poder" FROM personagem p INNER JOIN heroi_poder hp
+ON p.codinome = hp.codinome INNER JOIN poder pow
+ON pow.codigo_do_poder = hp.codigo_do_poder
+
+
+
 
 --48) Bloco anônimo
 
