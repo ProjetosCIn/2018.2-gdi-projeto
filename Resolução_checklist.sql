@@ -170,6 +170,154 @@ anome := '******';
 UPDATE personagem set codinome = anome
 WHERE codinome = 'palavrão';
 END;
-/
 
+
+--50)USO DE IF-THEN-ELSE
+--51)USO DE ELSIF
+
+DECLARE
+    h_frase personagem.frase_de_efeito%TYPE;
+    h_date NUMBER;
+BEGIN
+    SELECT frase_de_efeito, EXTRACT(month FROM data_de_nascimento) INTO h_frase, h_date
+    FROM personagem WHERE personagem.codinome = 'Deku';
+    IF h_date = 07 THEN
+        DBMS_OUTPUT.PUT_LINE('Deku nasceu em julho e sua frase de efeito é: '||h_frase);
+    ELSIF h_date = 12 THEN
+        DBMS_OUTPUT.PUT_LINE('Deku nasceu em dezembro e sua frase de efeito é: '||h_frase);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Deku não nasceu nem em julho nem em dezembro e sua frase de efeito é: '||h_frase);
+    END IF;
+END;
+
+--52) Uso de CASE
+
+DECLARE
+    h_frase personagem.frase_de_efeito%TYPE;
+    h_date NUMBER;
+    frase_output VARCHAR2(150);
+BEGIN
+    SELECT frase_de_efeito, EXTRACT(month FROM data_de_nascimento) INTO h_frase, h_date
+    FROM personagem WHERE personagem.codinome = 'Deku';
+    
+    frase_output :=
+    CASE
+        WHEN (h_date <= 07 AND h_date > 0) THEN 'Deku nasceu entre janeiro e fevereiro e tem frase de efeito '||h_frase
+        WHEN h_date > 7 AND h_date <= 10 THEN 'Deku nasceu entre agosto e outubro e tem frase de efeito '||h_frase
+        WHEN (h_date > 10 AND h_date <=12) THEN 'Deku nasceu entre novembro e dezembro e tem frase de efeito '||h_frase
+        ELSE 'Tem que rever esse banco de dados aí, ein rogerinho'
+    END;
+    DBMS_OUTPUT.PUT_LINE(frase_output);
+END;
+    
+
+    
+--53)Loop com Condição de Saída
+--59)Uso de cursor explícito com variável
+DECLARE
+    h_name personagem.codinome%TYPE;
+    h_frase personagem.frase_de_efeito%TYPE;
+    h_date NUMBER;
+    frase_output VARCHAR2(150);
+    CURSOR cur_hero IS
+        SELECT codinome, frase_de_efeito, EXTRACT(month FROM data_de_nascimento)
+        FROM personagem;
+BEGIN
+    OPEN cur_hero;
+    LOOP
+        FETCH cur_hero INTO h_name, h_frase, h_date;
+        EXIT WHEN cur_hero%NOTFOUND;
+        frase_output :=
+        CASE
+            WHEN (h_date <= 07 AND h_date > 0) THEN h_name||' nasceu entre janeiro e julho e tem frase de efeito '||h_frase
+            WHEN (h_date > 7 AND h_date <= 10) THEN h_name||' nasceu entre agosto e outubro e tem frase de efeito '||h_frase
+            WHEN (h_date > 10 AND h_date <=12) THEN h_name||' nasceu entre novembro e dezembro e tem frase de efeito '||h_frase
+            ELSE 'Tem que rever esse banco de dados aí, ein rogerinho'
+        END;
+        DBMS_OUTPUT.PUT_LINE(frase_output);
+    END LOOP;
+END;
+
+--60)Uso de cursor explícito com registro    
+DECLARE
+    frase_output VARCHAR2(150);
+    CURSOR cur_hero IS
+        SELECT codinome, frase_de_efeito, EXTRACT(month FROM data_de_nascimento) mes
+        FROM personagem;
+    reg_hero cur_hero%ROWTYPE;
+BEGIN
+    OPEN cur_hero;
+    LOOP
+        FETCH cur_hero INTO reg_hero;
+        EXIT WHEN cur_hero%NOTFOUND;
+        frase_output :=
+        CASE
+            WHEN (reg_hero.mes <= 07 AND reg_hero.mes > 0) THEN reg_hero.codinome||' nasceu entre janeiro e julho e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 7 AND reg_hero.mes <= 10) THEN reg_hero.codinome||' nasceu entre agosto e outubro e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 10 AND reg_hero.mes <=12) THEN reg_hero.codinome||' nasceu entre novembro e dezembro e tem frase de efeito '||reg_hero.frase_de_efeito
+            ELSE 'Tem que rever esse banco de dados aí, ein rogerinho'
+        END;
+        DBMS_OUTPUT.PUT_LINE(frase_output);
+    END LOOP;
+    CLOSE cur_hero;
+END;
+    
+--63)Procedimento sem parâmetro
+CREATE OR REPLACE PROCEDURE hero_details IS
+    frase_output VARCHAR2(150);
+    CURSOR cur_hero IS
+        SELECT codinome, frase_de_efeito, EXTRACT(month FROM data_de_nascimento) mes
+        FROM personagem;
+    reg_hero cur_hero%ROWTYPE;
+BEGIN
+    OPEN cur_hero;
+    LOOP
+        FETCH cur_hero INTO reg_hero;
+        EXIT WHEN cur_hero%NOTFOUND;
+        frase_output :=
+        CASE
+            WHEN (reg_hero.mes <= 07 AND reg_hero.mes > 0) THEN reg_hero.codinome||' nasceu entre janeiro e julho e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 7 AND reg_hero.mes <= 10) THEN reg_hero.codinome||' nasceu entre agosto e outubro e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 10 AND reg_hero.mes <=12) THEN reg_hero.codinome||' nasceu entre novembro e dezembro e tem frase de efeito '||reg_hero.frase_de_efeito
+            ELSE 'Tem que rever esse banco de dados aí, ein rogerinho'
+        END;
+        DBMS_OUTPUT.PUT_LINE(frase_output);
+    END LOOP;
+    CLOSE cur_hero;
+END;
+    
+--64) Procedimento com parâmetro IN
+CREATE OR REPLACE PROCEDURE hero_details (requestedAdress VARCHAR) IS
+    frase_output VARCHAR2(150);
+    CURSOR cur_hero IS
+        SELECT codinome, frase_de_efeito, EXTRACT(month FROM data_de_nascimento) mes
+        FROM personagem WHERE endereço_de_nascimento = requestedAdress;
+    reg_hero cur_hero%ROWTYPE;
+BEGIN
+    OPEN cur_hero;
+    LOOP
+        FETCH cur_hero INTO reg_hero;
+        EXIT WHEN cur_hero%NOTFOUND;
+        frase_output :=
+        CASE
+            WHEN (reg_hero.mes <= 07 AND reg_hero.mes > 0) THEN reg_hero.codinome||' nasceu entre janeiro e julho e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 7 AND reg_hero.mes <= 10) THEN reg_hero.codinome||' nasceu entre agosto e outubro e tem frase de efeito '||reg_hero.frase_de_efeito
+            WHEN (reg_hero.mes > 10 AND reg_hero.mes <=12) THEN reg_hero.codinome||' nasceu entre novembro e dezembro e tem frase de efeito '||reg_hero.frase_de_efeito
+            ELSE 'Tem que rever esse banco de dados aí, ein rogerinho'
+        END;
+        DBMS_OUTPUT.PUT_LINE(frase_output);
+    END LOOP;
+    CLOSE cur_hero;
+END;
+    
+--74)AFTER TRIGGER
+--75)TRIGGER de Linha sem condição
+--80)Uso de NEW e OLD em TRIGGER de atualização
+CREATE OR REPLACE TRIGGER trig_msg
+AFTER UPDATE OF frase_de_efeito ON personagem
+REFERENCING OLD AS V NEW AS N
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Alteração na frase de efeito realizada com sucesso! Frase antiga: '||:V.frase_de_efeito||' e frase nova: '||:N.frase_de_efeito);
+END;
 
