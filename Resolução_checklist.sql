@@ -309,6 +309,21 @@ BEGIN
     END LOOP;
     CLOSE cur_hero;
 END;
+                                                             
+-- 68)
+                                                             
+CREATE OR REPLACE FUNCTION totalPersonagem 
+RETURN number IS 
+   total number(3) := 0; 
+BEGIN 
+   SELECT count(*) into total 
+   FROM personagem; 
+    
+   RETURN total; 
+END; 
+/ 
+                                                             
+                                                             
     
 --74)AFTER TRIGGER
 --75)TRIGGER de Linha sem condição
