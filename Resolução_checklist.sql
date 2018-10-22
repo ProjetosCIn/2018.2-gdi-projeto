@@ -1,27 +1,27 @@
 --1) Retorna todos as equipes com o determinado numero de fãs
 SELECT codigo_de_equipe
 FROM equipe                         
-WHERE n_de_fãs BETWEEN 1 AND 999999
+WHERE n_de_fãs BETWEEN 1 AND 999999;
 
 --2) Retorna todos os personagems com a data de nascimento no intervalo especificado
 SELECT codinome
 FROM personagem
-WHERE data_de_nascimento BETWEEN to_date('1996-07-01', 'yyyy-mm-dd') AND to_date('2000-07-31', 'yyyy-mm-dd')
+WHERE data_de_nascimento BETWEEN to_date('1996-07-01', 'yyyy-mm-dd') AND to_date('2000-07-31', 'yyyy-mm-dd');
 
 --3) Retorna todos os personagens que tem 'Might' no nome
 SELECT codinome
 FROM personagem 
-WHERE codinome LIKE '%Might%'
+WHERE codinome LIKE '%Might%';
 
 --4) Retorna todos os heróis
 SELECT *
 FROM personagem
-WHERE codinome IN (SELECT codinome FROM heroi)
+WHERE codinome IN (SELECT codinome FROM heroi);
 
 --5) Retorna as frases de efeito de todos os heróis que tem CRH
 SELECT frase_de_efeito
 FROM personagem
-WHERE codinome IN (SELECT codinome FROM heroi WHERE crh IS NOT NULL)
+WHERE codinome IN (SELECT codinome FROM heroi WHERE crh IS NOT NULL);
 
 --6) Retorna os personagens ordenados pela data de nascimento
 SELECT *
@@ -32,17 +32,23 @@ ORDER BY data_de_nascimento ASC;
 CREATE VIEW MATERNIDADES AS
 SELECT endereço, latitude, longitude
 FROM lugar, (SELECT endereço_de_nascimento FROM personagem) aux
-WHERE lugar.endereço = aux.endereço_de_nascimento
+WHERE lugar.endereço = aux.endereço_de_nascimento;
 
 --8) 
 SELECT *
 FROM MATERNIDADES
-GROUP BY endereço, latitude, longitude
+GROUP BY endereço, latitude, longitude;
+
+--9)
+DROP VIEW MATERNIDADES;
+
+--10) Agora ao inserir um personagem na tabela, o codinome não pode ser nulo
+ALTER TABLE personagem
+ADD CHECK (codinome IS NOT NULL);
 
 --14) Modifica o tipo da coluna n_de_fãs
 ALTER TABLE equipe
 MODIFY n_de_fãs NUMBER;
-
 
 
 --15) Adiciona uma coluna na tabela 'poder'
