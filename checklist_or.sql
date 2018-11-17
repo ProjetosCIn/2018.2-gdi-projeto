@@ -1,5 +1,6 @@
 -- 1. Criação de tipo e subtipo
 -- 5. Criação e chamada de um método construtor (diferente do padrão)
+-- 6. Criação e chamada de um função membro em um comando SELECT e em um bloco PL
 CREATE OR REPLACE TYPE PersonagemType AS OBJECT(
 	codinome VARCHAR(50),
 	frase_de_efeito  VARCHAR (255),
@@ -10,36 +11,63 @@ CREATE OR REPLACE TYPE PersonagemType AS OBJECT(
 		codinome VARCHAR, frase_de_efeito  VARCHAR,
 		uniforme  VARCHAR,
 		endereço_de_nascimento VARCHAR,
-		data_de_nascimento DATE) RETURN SELF AS RESULT
+		data_de_nascimento DATE) RETURN SELF AS RESULT,
+	MEMBER FUNCTION idade RETURN NUMBER
 );
+/
 
+-- Modificação do Construtor
 CREATE OR REPLACE TYPE BODY PersonagemType AS
 	CONSTRUCTOR FUNCTION PersonagemType(
-		prefixo VARCHAR(50), 
-		codinome VARCHAR(50), frase_de_efeito  VARCHAR (255),
-		uniforme  VARCHAR(255),
-		endereço_de_nascimento VARCHAR(100),
+		prefixo VARCHAR, 
+		codinome VARCHAR, frase_de_efeito  VARCHAR,
+		uniforme  VARCHAR,
+		endereço_de_nascimento VARCHAR,
 		data_de_nascimento DATE) 
 		RETURN SELF AS RESULT 
 	AS 
 	BEGIN
-		SELF.codinome := codinome;
+		SELF.codinome := CONCAT(prefixo, codinome);
 		SELF.frase_de_efeito := frase_de_efeito;
 		SELF.uniforme := uniforme;
-		SELF.endereco_de_nascimento := endereco_de_nascimento;
+		SELF.endereço_de_nascimento := endereço_de_nascimento;
 		SELF.data_de_nascimento := data_de_nascimento;
 		RETURN;
 	END;
+-- Modificação da Member Function
+	MEMBER FUNCTION idade RETURN NUMBER IS
+	idadeAno NUMBER;
+	BEGIN
+	    idadeAno := EXTRACT (YEAR FROM SYSDATE) - EXTRACT(YEAR FROM SELF.data_de_nascimento);
+		RETURN idadeAno;
+	END;
+	
 END;
+/
 
--- Chamada 
+-- Criação de uma Tabela de Personagens
+
+CREATE TABLE PersonagemTable of PersonagemType;
+/
+
+-- Chamada da criação do Tipo e da Member Function
 DECLARE
     personagem PersonagemType;
+    idade NUMBER;
 BEGIN
+		-- Inserção de Valores na Tabela de Personagens
     personagem := PersonagemType('Sr. ', 'Homem de Lata', 'Eu sou o homem de lata', 'Capa de Lata','Rua de Lata', to_date('12/10/1968', 'dd/mm/yyyy'));
+    INSERT INTO PersonagemTable VALUES(personagem);
+    -- INSERT INTO PersonagemTable VALUES(PersonagemType('123. ', '123123 de Lata', 'Eu 12312 o homem de lata', 'Capa de Lata','Rua de Lata', to_date('12/10/1968', 'dd/mm/yyyy')));
+    
+    SELECT personagem.idade() 
+    INTO idade 
+    FROM PersonagemTable personagem;
+    
+    dbms_output.put_line(idade);
     dbms_output.put_line(personagem.codinome);
 END;
-
+/
 
 -- 2. Criação de um tipo que contenha um atributo que seja de um outro tipo
 
