@@ -17,14 +17,12 @@ CREATE OR REPLACE TYPE tp_Equipe AS OBJECT(
 );
 /
 
-CREATE OR REPLACE TYPE tp_Personagem AS OBJECT( -- Tem erro aqui, to vendo com a monitora...
+CREATE OR REPLACE TYPE tp_Personagem AS OBJECT(
     Codinome VARCHAR2(50),
     Frase_De_Efeito VARCHAR2(255),
     Uniforme VARCHAR2(255),
     Endereço_De_Nascimento tp_Lugar,
     Data_de_Nascimento DATE,
-    Mentor tp_Personagem,
-    Mentorando tp_Personagem,
     REF_equipe REF tp_Equipe
     
     
@@ -37,16 +35,22 @@ CREATE OR REPLACE TYPE tp_Poder AS OBJECT(
     Legalidade VARCHAR2(6) -- LEGAL OU ILEGAL
 );
 /
-CREATE OR REPLACE TYPE tp_Heroi AS OBJECT UNDER tp_Personagem(
+CREATE OR REPLACE TYPE tp_Heroi UNDER tp_Personagem(
     Crh NUMBER(10), 
     REF_poder REF tp_Poder
 )FINAL;
 /
-CREATE OR REPLACE TYPE tp_Vilão AS OBJECT UNDER tp_Personagem(
+CREATE OR REPLACE TYPE tp_Vilão UNDER tp_Personagem(
     Numero_De_Procurado NUMBER(10),
     REF_poder REF tp_Poder
 )FINAL;
 /
+
+
+
+
+
+
 
 
 
@@ -70,11 +74,12 @@ CREATE OR REPLACE TYPE tp_Qg AS OBJECT(
 );
 /
 CREATE OR REPLACE TYPE tp_Símbolo AS OBJECT(
-    REF_equipe REF tp_Equipe,
+    
     Cor_Predominante VARCHAR2(30),
     Significado VARCHAR2(255),
     Id_Imagem NUMBER,
-   -- Imagem 
+    REF_equipe REF tp_Equipe
+   
 
 );
 /
