@@ -1,3 +1,22 @@
+DROP TYPE tp_Coordenada;
+DROP TYPE tp_Lugar;
+DROP TYPE tp_Equipe;
+DROP TYPE tp_Personagem;
+DROP TYPE tp_Poder;
+DROP TYPE tp_Heroi;
+DROP TYPE tp_Vilão;
+DROP TYPE tp_Area;
+DROP TYPE tp_Area_De_Atuação;
+DROP TYPE tp_Qg;
+DROP TYPE tp_Símbolo;
+DROP TYPE tp_Luta;
+
+
+
+
+
+
+
 CREATE OR REPLACE TYPE tp_Coordenada AS OBJECT(
 Latitude NUMBER(11),
 Longitude NUMBER(11)
