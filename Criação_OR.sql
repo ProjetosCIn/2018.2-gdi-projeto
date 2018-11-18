@@ -23,7 +23,9 @@ CREATE OR REPLACE TYPE tp_Personagem AS OBJECT(
     Uniforme VARCHAR2(255),
     Endereço_De_Nascimento tp_Lugar,
     Data_de_Nascimento DATE,
-    REF_equipe REF tp_Equipe
+    REF_equipe REF tp_Equipe,
+    Mentor REF tp_Personagem,
+    Mentorando REF tp_Personagem
     
     
 )NOT FINAL NOT INSTANTIABLE; -- abstrato
@@ -45,13 +47,6 @@ CREATE OR REPLACE TYPE tp_Vilão UNDER tp_Personagem(
     REF_poder REF tp_Poder
 )FINAL;
 /
-
-
-
-
-
-
-
 
 
 CREATE OR REPLACE TYPE tp_Area AS OBJECT(
@@ -91,3 +86,21 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
     REF_Equipe REF tp_Equipe
 );
 /
+
+CREATE TABLE tb_Lugar OF tp_Lugar (
+    PRIMARY KEY (Endereço)
+
+);
+
+CREATE TABLE tb_Equipe OF tp_Equipe(
+    PRIMARY KEY (Cod_De_Equipe)
+);
+
+CREATE TABLE tb_Personagem OF tp_Personagem(
+    PRIMARY KEY (Codinome)
+);
+
+CREATE TABLE tb_Poder OF tp_Poder(
+    PRIMARY KEY (Cod_Poder)
+);
+
