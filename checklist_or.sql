@@ -74,7 +74,11 @@ ALTER TYPE tp_Símbolo
 ADD ATTRIBUTE (Nome_Criador VARCHAR2(200)) CASCADE;
 
 --12.
-ALTER TYPE tp_Símbolo
+ ALTER TYPE tp_Símbolo
+ MODIFY ATTRIBUTE Nome_Criador VARCHAR2(255)) CASCADE;
+
+--13.
+ ALTER TYPE tp_Símbolo
 DROP ATTRIBUTE Nome_Criador CASCADE;
-															  
+
 
