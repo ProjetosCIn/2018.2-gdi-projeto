@@ -74,7 +74,7 @@ CREATE OR REPLACE TYPE tp_Area AS OBJECT(
 );
 /
 
-CREATE OR REPLACE TYPE Area_De_Atuação AS TABLE OF tp_Area; 
+CREATE OR REPLACE TYPE tp_Area_De_Atuação AS TABLE OF tp_Area; 
 /
 
 
