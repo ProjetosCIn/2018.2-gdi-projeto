@@ -81,4 +81,11 @@ ADD ATTRIBUTE (Nome_Criador VARCHAR2(200)) CASCADE;
  ALTER TYPE tp_Símbolo
 DROP ATTRIBUTE Nome_Criador CASCADE;
 
+--14.
+ALTER TYPE tp_Personagem
+ADD ATTRIBUTE(Quantidade_De_Vitórias NUMBER(10)) CASCADE;
+
+--15.
+ALTER TYPE tp_Personagem
+MODIFY ATTRIBUTE(Quantidade_De_Vitórias NUMBER(20)) INVALIDATE;
 
