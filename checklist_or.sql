@@ -68,6 +68,96 @@ CREATE OR REPLACE TYPE equipeType AS OBJECT(
 	areas AreaAtuacao
 );
 
+-- Questões 6,7 e 8. --Falta chamar as funções no select
+
+
+DROP TABLE tb_Arma;
+DROP TYPE tp_Arma;
+
+DROP TABLE tb_Bermuda;
+DROP TYPE tp_Bermuda;
+
+CREATE OR REPLACE TYPE tp_Bermuda AS OBJECT(
+    identificacao NUMBER,
+    COR VARCHAR2(100),
+    tamanho INTEGER,
+     MAP MEMBER FUNCTION RetornoID RETURN NUMBER
+    
+    );
+/
+CREATE OR REPLACE TYPE BODY tp_Bermuda IS
+    MAP MEMBER FUNCTION RetornoID RETURN NUMBER IS
+        BEGIN
+            RETURN identificacao;
+        END;
+        END;
+        /
+        
+        
+CREATE TABLE tb_Bermuda OF tp_Bermuda(
+    PRIMARY KEY (identificacao)
+);
+
+INSERT INTO tb_Bermuda VALUES(tp_Bermuda('111','Azul','38'));
+INSERT INTO tb_Bermuda VALUES(tp_Bermuda('222','Verde','40'));
+
+--SELECT * FROM tb_Bermuda;
+
+CREATE OR REPLACE TYPE tp_Arma AS OBJECT(
+    IDD NUMBER,
+    Nome VARCHAR2(100),
+    Qtd_Poder INTEGER,
+    MEMBER FUNCTION Soma(i INTEGER) RETURN INTEGER,
+    ORDER MEMBER FUNCTION Teste(novo tp_Arma) RETURN INTEGER
+
+    
+);
+/
+CREATE OR REPLACE TYPE BODY tp_Arma IS
+    MEMBER FUNCTION Soma(i INTEGER) RETURN INTEGER IS
+        BEGIN
+            RETURN SELF.Qtd_Poder + i;
+        END;
+        
+    ORDER MEMBER FUNCTION Teste(novo tp_Arma) RETURN INTEGER IS
+        BEGIN
+            RETURN SELF.Qtd_Poder - novo.Qtd_Poder;
+        END;
+    
+    END;    
+       
+/
+
+CREATE TABLE tb_Arma OF tp_Arma(
+    PRIMARY KEY (IDD)
+);
+--INSERT INTO tb_Arma VALUES(tp_Arma('123','Machado','10'));
+INSERT INTO tb_Arma VALUES(tp_Arma('123','Machadoo','10'));
+INSERT INTO tb_Arma VALUES(tp_Arma('1234','Facão','10'));
+INSERT INTO tb_Arma VALUES(tp_Arma('1123','fACA','1'));
+--SELECT * FROM tb_Arma;
+
+DECLARE
+variavel INTEGER := 2;
+Resultado INTEGER;
+Resultado2 INTEGER;
+BEGIN
+
+--SELECT Qtd_Poder into Resultado FROM tb_Arma WHERE Nome='Machadoo' AND IDD='123' AND tb_Arma.Soma(10)=12;--Algum erro
+--select tb_Arma.Soma(10) FROM tb_Arma;
+--dbms_output.put_line('Qtd_poder de Machadoo : '||Resultado);
+--
+
+--SELECT tb_Bermuda.RetornoID FROM tb_Bermuda; -- MAP
+
+
+
+ 
+END;
+/
+
+
+
 
 --11.
 ALTER TYPE tp_Símbolo
