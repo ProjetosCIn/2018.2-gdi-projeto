@@ -97,4 +97,23 @@ CREATE OR REPLACE TYPE equipeType AS OBJECT(
 );
 
 
+--11.
+ALTER TYPE tp_Símbolo
+ADD ATTRIBUTE (Nome_Criador VARCHAR2(200)) CASCADE;
+
+--12.
+ ALTER TYPE tp_Símbolo
+ MODIFY ATTRIBUTE Nome_Criador VARCHAR2(255)) CASCADE;
+
+--13.
+ ALTER TYPE tp_Símbolo
+DROP ATTRIBUTE Nome_Criador CASCADE;
+
+--14.
+ALTER TYPE tp_Personagem
+ADD ATTRIBUTE(Quantidade_De_Vitórias NUMBER(10)) CASCADE;
+
+--15.
+ALTER TYPE tp_Personagem
+MODIFY ATTRIBUTE(Quantidade_De_Vitórias NUMBER(20)) INVALIDATE;
 
