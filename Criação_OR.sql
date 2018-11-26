@@ -82,7 +82,8 @@ CREATE OR REPLACE TYPE tp_Qg AS OBJECT(
     Cep NUMBER,
     Numero_De_Aposentos NUMBER(10),
     Numero_De_Qg NUMBER(10),
-    REF_equipe REF tp_Equipe
+    REF_equipe REF tp_Equipe,
+    Cod_De_Equipe NUMBER(10)
 
 );
 /
@@ -105,21 +106,6 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
 );
 /
 
-CREATE TABLE tb_Lugar OF tp_Lugar (
-    PRIMARY KEY (Endereço)
-);
-
-CREATE TABLE tb_Equipe OF tp_Equipe(
-    PRIMARY KEY (Cod_De_Equipe)
-);
-
-CREATE TABLE tb_Personagem OF tp_Personagem(
-    PRIMARY KEY (Codinome)
-);
-
-CREATE TABLE tb_Poder OF tp_Poder(
-    PRIMARY KEY (Cod_Poder)
-);
 
 --Criação das tabelas
 DROP TABLE tb_Lugar;
@@ -149,16 +135,17 @@ CREATE TABLE tb_Poder OF tp_Poder(
     PRIMARY KEY (Cod_Poder)
 );
 
-CREATE TABLE tb_Heroi OF tp_Heroi(
-    PRIMARY KEY (Codinome)
-    FOREIGN KEY(REF_Heroi)
+CREATE TABLE tb_Heroi OF tp_Heroi( -- dando erro ( invalid indentifier)
+    PRIMARY KEY (Codinome),
+   -- FOREIGN KEY(REF_Poder) REFERENCES (tp_Poder)
+   -- REF_Poder SCOPE IS tp_Poder
 );
 
 CREATE TABLE tb_Vilão OF tp_Vilão( 
     PRIMARY KEY (Numero_De_Procurado)
 );
 
-CREATE TABLE tb_Qg OF tp_Qg( -- ERRO , ta dando invalid indentifier
+CREATE TABLE tb_Qg OF tp_Qg( 
     PRIMARY KEY (Numero_De_Qg,Cod_De_Equipe),
     FOREIGN KEY(REF_Equipe) REFERENCES tb_Equipe    
 );
@@ -167,7 +154,7 @@ CREATE TABLE tb_Símbolo OF tp_Símbolo(
     PRIMARY KEY (Id_Imagem)
 );
 
-CREATE TABLE tb_Luta OF tp_Luta(--???
-    PRIMARY KEY () -- CodinomeHeroi, CodinomeVilao,Endereço_luta,Data_luta
+--CREATE TABLE tb_Luta OF tp_Luta(--???
+ --   PRIMARY KEY () -- CodinomeHeroi, CodinomeVilao,Endereço_luta,Data_luta
 
-);
+--);
