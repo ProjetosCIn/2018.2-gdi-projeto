@@ -101,7 +101,8 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
     Data_luta DATE,
     Endereço VARCHAR2(100),
     Codinome_Heroi VARCHAR2(50),
-    Codinome_Vilão VARCHAR2(50)
+    Codinome_Vilão VARCHAR2(50),
+    Codigo_de_Equipe NUMBER(10)
     
 );
 /
@@ -155,6 +156,6 @@ CREATE TABLE tb_Símbolo OF tp_Símbolo(
 );
 
 CREATE TABLE tb_Luta OF tp_Luta( 
-    PRIMARY KEY (Codinome_Heroi,Codinome_Vilão,Endereço,Data_luta)
+    PRIMARY KEY (Codinome_Heroi,Codinome_Vilão,Endereço,Data_luta,Codigo_de_Equipe)
 
 );
