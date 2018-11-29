@@ -9,7 +9,7 @@ DROP TYPE tp_Area;
 DROP TYPE tp_Area_De_Atuação;
 DROP TYPE tp_Qg;
 DROP TYPE tp_Símbolo;
-DROP TYPE tp_Luta;
+DROP TYPE tp_Luta FORCE;
 
 
 
@@ -99,10 +99,10 @@ CREATE OR REPLACE TYPE tp_Símbolo AS OBJECT(
 
 CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
     Data_luta DATE,
-    Endereço tp_Lugar,
-    REF_Heroi REF tp_Heroi,
-    REF_Vilão REF tp_Vilão,
-    REF_Equipe REF tp_Equipe
+    Endereço VARCHAR2(100),
+    Codinome_Heroi VARCHAR2(50),
+    Codinome_Vilão VARCHAR2(50)
+    
 );
 /
 
@@ -154,10 +154,7 @@ CREATE TABLE tb_Símbolo OF tp_Símbolo(
     PRIMARY KEY (Id_Imagem)
 );
 
---CREATE TABLE tb_Luta OF tp_Luta( --REF Não pode ser primary key
---    PRIMARY KEY (REF_Heroi,REF_Vilão,Endereço,Data_luta),
---    FOREIGN KEY (REF_Heroi) REFERENCES tb_Heroi,
---    FOREIGN KEY (REF_Vilão) REFERENCES tb_Vilão
-    
+CREATE TABLE tb_Luta OF tp_Luta( 
+    PRIMARY KEY (Codinome_Heroi,Codinome_Vilão,Endereço,Data_luta)
 
---);
+);
