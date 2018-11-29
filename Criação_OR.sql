@@ -1,9 +1,9 @@
-DROP TYPE tp_Coordenada;
-DROP TYPE tp_Lugar;
-DROP TYPE tp_Equipe;
-DROP TYPE tp_Personagem;
-DROP TYPE tp_Poder;
-DROP TYPE tp_Heroi;
+DROP TYPE tp_Coordenada FORCE;
+DROP TYPE tp_Lugar FORCE;
+DROP TYPE tp_Equipe FORCE;
+DROP TYPE tp_Personagem FORCE;
+DROP TYPE tp_Poder FORCE;
+DROP TYPE tp_Heroi FORCE;
 DROP TYPE tp_Vilão;
 DROP TYPE tp_Area;
 DROP TYPE tp_Area_De_Atuação;
@@ -98,7 +98,7 @@ CREATE OR REPLACE TYPE tp_Símbolo AS OBJECT(
 /
 
 CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
-    Data DATE,
+    Data_luta DATE,
     Endereço tp_Lugar,
     REF_Heroi REF tp_Heroi,
     REF_Vilão REF tp_Vilão,
@@ -109,12 +109,12 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
 
 --Criação das tabelas
 DROP TABLE tb_Lugar;
-DROP TABLE tb_Equipe;
+DROP TABLE tb_Equipe CASCADE CONSTRAINT;
 DROP TABLE tb_Personagem;
-DROP TABLE tb_Poder;
-DROP TABLE tb_Heroi;
+DROP TABLE tb_Poder CASCADE CONSTRAINT;
+DROP TABLE tb_Heroi; 
 DROP TABLE tb_Vilão;
-DROP TABLE tb_Qg;
+DROP TABLE tb_Qg; 
 DROP TABLE tb_Símbolo;
 DROP TABLE tb_Luta;
 
@@ -135,9 +135,9 @@ CREATE TABLE tb_Poder OF tp_Poder(
     PRIMARY KEY (Cod_Poder)
 );
 
-CREATE TABLE tb_Heroi OF tp_Heroi( -- dando erro ( invalid indentifier)
+CREATE TABLE tb_Heroi OF tp_Heroi( 
     PRIMARY KEY (Codinome),
-   -- FOREIGN KEY(REF_Poder) REFERENCES (tp_Poder)
+    FOREIGN KEY(REF_poder) REFERENCES tb_Poder
    -- REF_Poder SCOPE IS tp_Poder
 );
 
@@ -154,7 +154,10 @@ CREATE TABLE tb_Símbolo OF tp_Símbolo(
     PRIMARY KEY (Id_Imagem)
 );
 
---CREATE TABLE tb_Luta OF tp_Luta(--???
- --   PRIMARY KEY () -- CodinomeHeroi, CodinomeVilao,Endereço_luta,Data_luta
+--CREATE TABLE tb_Luta OF tp_Luta( --REF Não pode ser primary key
+--    PRIMARY KEY (REF_Heroi,REF_Vilão,Endereço,Data_luta),
+--    FOREIGN KEY (REF_Heroi) REFERENCES tb_Heroi,
+--    FOREIGN KEY (REF_Vilão) REFERENCES tb_Vilão
+    
 
 --);
