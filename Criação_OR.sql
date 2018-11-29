@@ -7,7 +7,7 @@ DROP TYPE tp_Heroi FORCE;
 DROP TYPE tp_Vilão;
 DROP TYPE tp_Area;
 DROP TYPE tp_Area_De_Atuação;
-DROP TYPE tp_Qg;
+DROP TYPE tp_Qg FORCE;
 DROP TYPE tp_Símbolo;
 DROP TYPE tp_Luta FORCE;
 
@@ -82,7 +82,6 @@ CREATE OR REPLACE TYPE tp_Qg AS OBJECT(
     Cep NUMBER,
     Numero_De_Aposentos NUMBER(10),
     Numero_De_Qg NUMBER(10),
-    REF_equipe REF tp_Equipe,
     Cod_De_Equipe NUMBER(10)
 
 );
@@ -111,7 +110,7 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
 --Criação das tabelas
 DROP TABLE tb_Lugar;
 DROP TABLE tb_Equipe CASCADE CONSTRAINT;
-DROP TABLE tb_Personagem;
+DROP TABLE tb_Personagem CASCADE CONSTRAINT;
 DROP TABLE tb_Poder CASCADE CONSTRAINT;
 DROP TABLE tb_Heroi; 
 DROP TABLE tb_Vilão;
@@ -136,9 +135,13 @@ CREATE TABLE tb_Poder OF tp_Poder(
     PRIMARY KEY (Cod_Poder)
 );
 
+
 CREATE TABLE tb_Heroi OF tp_Heroi( 
     PRIMARY KEY (Codinome),
-    FOREIGN KEY(REF_poder) REFERENCES tb_Poder
+    FOREIGN KEY(REF_poder) REFERENCES tb_Poder,
+    FOREIGN KEY(REF_equipe) REFERENCES tb_Equipe,
+    FOREIGN KEY(Mentor) REFERENCES tb_Personagem,
+    FOREIGN KEY(Mentorando) REFERENCES tb_Personagem
    -- REF_Poder SCOPE IS tp_Poder
 );
 
@@ -147,8 +150,8 @@ CREATE TABLE tb_Vilão OF tp_Vilão(
 );
 
 CREATE TABLE tb_Qg OF tp_Qg( 
-    PRIMARY KEY (Numero_De_Qg,Cod_De_Equipe),
-    FOREIGN KEY(REF_Equipe) REFERENCES tb_Equipe    
+    PRIMARY KEY (Numero_De_Qg,Cod_De_Equipe)
+    
 );
 
 CREATE TABLE tb_Símbolo OF tp_Símbolo(
