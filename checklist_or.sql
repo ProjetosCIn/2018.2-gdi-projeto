@@ -207,3 +207,50 @@ ADD ATTRIBUTE(Quantidade_De_Vitórias NUMBER(10)) CASCADE;
 ALTER TYPE tp_Personagem
 MODIFY ATTRIBUTE(Quantidade_De_Vitórias NUMBER(20)) INVALIDATE;
 
+--20
+SELECT DEREF(t.ref_poder).nome FROM tb_Heroi t;
+--21
+SELECT VALUE(t).codinome FROM tb_Heroi t;
+-- 22, 26
+SELECT * FROM TABLE(SELECT e.area_de_atuacao FROM tb_equipe e);
+
+--16, 17
+
+CREATE OR REPLACE TYPE tp_temPoder AS OBJECT(
+	ref_poder REF tp_poder;
+	ref_personagem REF tp_personagem;
+);
+
+CREATE TABLE tb_temPoder OF tp_temPoder(
+	ref_poder WITH ROWID REFERENCES tb_poder;
+	ref_personagem WITH ROWID REFERENCES tb_personagem;
+);
+
+
+-- 27
+SELECT p.codinome from tb_personagem p
+WHERE EXISTS(select * from tb_local l where p.ref_lugar = ref(l));
+
+
+--9
+ALTER TYPE tp_personagem ADD MEMBER FUNCTION getCodinome RETURN VARCHAR2 CASCADE;
+
+CREATE OR REPLACE TYPE BODY tp_personagem AS
+	MEMBER FUNCTION getCodinome RETURN VARCHAR2 IS
+	BEGIN
+		RETURN SELF.codinome
+	END;
+END;
+
+
+DECLARE
+aux tp_heroi;
+BEGIN
+	SELECT VALUE(t) INTO aux
+	FROM tb_heroi t 
+	WHERE t.codinome = 'Midoriya';
+	DBMS_OUTPUT.PUT_LINE('Meu codinome é ' || aux.getCodinome());
+END;
+
+
+
