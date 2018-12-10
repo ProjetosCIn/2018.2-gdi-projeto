@@ -5,7 +5,7 @@ DROP TYPE tp_Personagem FORCE;
 DROP TYPE tp_Poder FORCE;
 DROP TYPE tp_Heroi FORCE;
 DROP TYPE tp_Vilão;
-DROP TYPE tp_Area;
+DROP TYPE tp_Area FORCE;
 DROP TYPE tp_Area_De_Atuação;
 DROP TYPE tp_Qg FORCE;
 DROP TYPE tp_Símbolo;
@@ -30,9 +30,26 @@ CREATE OR REPLACE TYPE tp_Lugar AS OBJECT(
 );
 /
 
+CREATE OR REPLACE TYPE tp_Area AS OBJECT(
+    Area VARCHAR2(255)
+);
+/
+
+CREATE OR REPLACE TYPE tp_Area_De_Atuação AS TABLE OF tp_Area; 
+/
+
 CREATE OR REPLACE TYPE tp_Equipe AS OBJECT(
     Cod_De_Equipe NUMBER(10),
-    Numero_De_Fãs NUMBER(19)
+    Numero_De_Fãs NUMBER(19),
+    area_Atuacao tp_Area_De_Atuação 
+);
+/
+
+CREATE OR REPLACE TYPE tp_Poder AS OBJECT(
+    Cod_Poder NUMBER(10),
+    Nome VARCHAR2(50),
+    Tipo VARCHAR2(30),
+    Legalidade VARCHAR2(6) -- LEGAL OU ILEGAL
 );
 /
 
@@ -44,38 +61,24 @@ CREATE OR REPLACE TYPE tp_Personagem AS OBJECT(
     Data_de_Nascimento DATE,
     REF_equipe REF tp_Equipe,
     Mentor REF tp_Personagem,
-    Mentorando REF tp_Personagem    
+    Mentorando REF tp_Personagem,
+    REF_poder REF tp_Poder    
 )NOT FINAL NOT INSTANTIABLE; -- abstrato
 /
 
-CREATE OR REPLACE TYPE tp_Poder AS OBJECT(
-    Cod_Poder NUMBER(10),
-    Nome VARCHAR2(50),
-    Tipo VARCHAR2(30),
-    Legalidade VARCHAR2(6) -- LEGAL OU ILEGAL
-);
-/
+
 
 CREATE OR REPLACE TYPE tp_Heroi UNDER tp_Personagem(
-    Crh NUMBER(10), 
-    REF_poder REF tp_Poder
+    Crh NUMBER(10) 
 )FINAL;
 /
 
 CREATE OR REPLACE TYPE tp_Vilão UNDER tp_Personagem(
-    Numero_De_Procurado NUMBER(10),
-    REF_poder REF tp_Poder
+    Numero_De_Procurado NUMBER(10)
 )FINAL;
 /
 
-CREATE OR REPLACE TYPE tp_Area AS OBJECT(
-    Area VARCHAR2(255),
-    REF_Equipe REF tp_Equipe
-);
-/
 
-CREATE OR REPLACE TYPE tp_Area_De_Atuação AS TABLE OF tp_Area; 
-/
 
 
 CREATE OR REPLACE TYPE tp_Qg AS OBJECT(
@@ -125,7 +128,7 @@ CREATE TABLE tb_Lugar OF tp_Lugar (
 
 CREATE TABLE tb_Equipe OF tp_Equipe(
     PRIMARY KEY (Cod_De_Equipe)
-);
+)NESTED TABLE area_Atuacao STORE AS area_at_NT;
 
 CREATE TABLE tb_Personagem OF tp_Personagem(
     PRIMARY KEY (Codinome)
