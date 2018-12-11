@@ -88,13 +88,18 @@ CREATE OR REPLACE TYPE LugarType AS OBJECT(
 
 -- 4. Criação de um tipo que contenha um atributo que seja de um tipo NESTED TABLE
 
-CREATE OR REPLACE TYPE AreaAtuacao AS TABLE OF VARCHAR(255);
+CREATE OR REPLACE TYPE tp_nt_area_de_atuacao AS TABLE OF VARCHAR(255);
 
 CREATE OR REPLACE TYPE equipeType AS OBJECT(
 	codigo_de_equipe NUMBER(10),
 	n_de_fãs NUMBER(19),
-	areas AreaAtuacao
-);
+	area_de_atuacao tp_nt_area_de_atuacao
+) FINAL;
+--Criando a tabela do tipo equipeType:
+CREATE TABLE tb_equipe_type of equipeType(
+	PRIMARY KEY (codigo_de_equipe),
+)NESTED TABLE area_de_atuacao STORE AS nt_area_de_atuacao;
+
 
 -- Questões 6,7 e 8. --Falta chamar as funções no select
 
@@ -137,8 +142,6 @@ CREATE OR REPLACE TYPE tp_Arma AS OBJECT(
     Qtd_Poder INTEGER,
     MEMBER FUNCTION Soma(i INTEGER) RETURN INTEGER,
     ORDER MEMBER FUNCTION Teste(novo tp_Arma) RETURN INTEGER
-
-    
 );
 /
 CREATE OR REPLACE TYPE BODY tp_Arma IS
@@ -146,41 +149,40 @@ CREATE OR REPLACE TYPE BODY tp_Arma IS
         BEGIN
             RETURN SELF.Qtd_Poder + i;
         END;
-        
+--- 8. Criação de um método ORDER em um comando SELECT e em um bloco PL        
     ORDER MEMBER FUNCTION Teste(novo tp_Arma) RETURN INTEGER IS
         BEGIN
             RETURN SELF.Qtd_Poder - novo.Qtd_Poder;
         END;
     
-    END;    
+    END;
        
 /
 
 CREATE TABLE tb_Arma OF tp_Arma(
     PRIMARY KEY (IDD)
 );
---INSERT INTO tb_Arma VALUES(tp_Arma('123','Machado','10'));
+
+
 INSERT INTO tb_Arma VALUES(tp_Arma('123','Machadoo','10'));
 INSERT INTO tb_Arma VALUES(tp_Arma('1234','Facão','10'));
 INSERT INTO tb_Arma VALUES(tp_Arma('1123','fACA','1'));
 --SELECT * FROM tb_Arma;
 
 DECLARE
-variavel INTEGER := 2;
-Resultado INTEGER;
-Resultado2 INTEGER;
-BEGIN
-
---SELECT Qtd_Poder into Resultado FROM tb_Arma WHERE Nome='Machadoo' AND IDD='123' AND tb_Arma.Soma(10)=12;--Algum erro
---select tb_Arma.Soma(10) FROM tb_Arma;
---dbms_output.put_line('Qtd_poder de Machadoo : '||Resultado);
---
-
---SELECT tb_Bermuda.RetornoID FROM tb_Bermuda; -- MAP
-
-
-
- 
+    faca tp_Arma;
+BEGIN 
+    SELECT VALUE(A) INTO faca FROM tb_Arma A WHERE IDD = 1123;
+    ---8. Chamada de um método ORDER em um comando SELECT e em um bloco PL
+    FOR arma in (SELECT Nome FROM tb_Arma A WHERE A.Teste(faca) > 0) --Quais armas tem mais poder que a faca
+    LOOP
+        dbms_output.put_line(arma.Nome);
+    END LOOP;
+    
+    FOR arma in (SELECT Nome FROM tb_Arma A WHERE A.Soma(5) > 11) --Quais armas se ganharem 5 de poder ficam com o poder maior que 11
+    LOOP
+        dbms_output.put_line(arma.Nome);
+    END LOOP;
 END;
 /
 
