@@ -290,9 +290,9 @@ void func_selecao(SQLHDBC dbc){
 			estado = -1;
 		}else if(estado == 2){
 			system("cls");
-			cout << "---Modo Remocão:\n\n\n";
+			cout << "---Modo Selecao:\n\n\n";
 			printaDadosTabela();
-			cout << endl << "Digite 1 para realizar a remocão." << endl;
+			cout << endl << "Digite 1 para realizar a selecao." << endl;
 			cin >> estado;
 			estado = -1;
 		}else{
