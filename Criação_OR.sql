@@ -4,22 +4,17 @@ DROP TYPE tp_Equipe FORCE;
 DROP TYPE tp_Personagem FORCE;
 DROP TYPE tp_Poder FORCE;
 DROP TYPE tp_Heroi FORCE;
-DROP TYPE tp_Vilão;
+DROP TYPE tp_Vilão FORCE;
 DROP TYPE tp_Area FORCE;
-DROP TYPE tp_Area_De_Atuação;
+DROP TYPE tp_Area_De_Atuação FORCE;
 DROP TYPE tp_Qg FORCE;
-DROP TYPE tp_Símbolo;
+DROP TYPE tp_Símbolo FORCE;
 DROP TYPE tp_Luta FORCE;
 
 
-
-
-
-
-
 CREATE OR REPLACE TYPE tp_Coordenada AS OBJECT(
-Latitude NUMBER(11),
-Longitude NUMBER(11)
+    Latitude NUMBER(11),
+    Longitude NUMBER(11)
 );
 /
 
@@ -66,8 +61,6 @@ CREATE OR REPLACE TYPE tp_Personagem AS OBJECT(
 )NOT FINAL NOT INSTANTIABLE; -- abstrato
 /
 
-
-
 CREATE OR REPLACE TYPE tp_Heroi UNDER tp_Personagem(
     Crh NUMBER(10) 
 )FINAL;
@@ -79,14 +72,11 @@ CREATE OR REPLACE TYPE tp_Vilão UNDER tp_Personagem(
 /
 
 
-
-
 CREATE OR REPLACE TYPE tp_Qg AS OBJECT(
     Cep NUMBER,
     Numero_De_Aposentos NUMBER(10),
     Numero_De_Qg NUMBER(10),
     Cod_De_Equipe NUMBER(10)
-
 );
 /
 
@@ -105,16 +95,15 @@ CREATE OR REPLACE TYPE tp_Luta AS OBJECT(
     Codinome_Heroi VARCHAR2(50),
     Codinome_Vilão VARCHAR2(50),
     Codigo_de_Equipe NUMBER(10)
-    
 );
 /
 
 
 --Criação das tabelas
 DROP TABLE tb_Lugar;
-DROP TABLE tb_Equipe CASCADE CONSTRAINT;
-DROP TABLE tb_Personagem CASCADE CONSTRAINT;
-DROP TABLE tb_Poder CASCADE CONSTRAINT;
+DROP TABLE tb_Equipe CASCADE;
+DROP TABLE tb_Personagem CASCADE;
+DROP TABLE tb_Poder CASCADE;
 DROP TABLE tb_Heroi; 
 DROP TABLE tb_Vilão;
 DROP TABLE tb_Qg; 
@@ -138,23 +127,25 @@ CREATE TABLE tb_Poder OF tp_Poder(
     PRIMARY KEY (Cod_Poder)
 );
 
-
 CREATE TABLE tb_Heroi OF tp_Heroi( 
     PRIMARY KEY (Codinome),
-    FOREIGN KEY(REF_poder) REFERENCES tb_Poder,
-    FOREIGN KEY(REF_equipe) REFERENCES tb_Equipe,
-    FOREIGN KEY(Mentor) REFERENCES tb_Personagem,
-    FOREIGN KEY(Mentorando) REFERENCES tb_Personagem
-   -- REF_Poder SCOPE IS tp_Poder
+    REF_poder SCOPE IS tb_Poder,
+    REF_equipe SCOPE IS tb_Equipe,
+    Mentor SCOPE IS tb_Personagem,
+    Mentorando SCOPE IS tb_Personagem
 );
 
 CREATE TABLE tb_Vilão OF tp_Vilão( 
-    PRIMARY KEY (Numero_De_Procurado)
+    PRIMARY KEY (Codinome),
+    REF_poder SCOPE IS tb_Poder,
+    REF_equipe SCOPE IS tb_Equipe,
+    Mentor SCOPE IS tb_Personagem,
+    Mentorando SCOPE IS tb_Personagem
 );
 
 CREATE TABLE tb_Qg OF tp_Qg( 
-    PRIMARY KEY (Numero_De_Qg,Cod_De_Equipe)
-    
+    PRIMARY KEY (Numero_De_Qg, Cod_De_Equipe),
+    Cod_De_Equipe SCOPE IS tb_Equipe
 );
 
 CREATE TABLE tb_Símbolo OF tp_Símbolo(
